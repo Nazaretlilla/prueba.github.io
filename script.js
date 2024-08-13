@@ -1,14 +1,35 @@
-document.getElementById('loginForm').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
-    
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+document.addEventListener("DOMContentLoaded", function() {
+    const loginForm = document.getElementById('loginForm');
+    const logoutButton = document.getElementById('logout');
 
-    // Simulación de autenticación simple
-    if (email === "user@example.com" && password === "password123") {
-        // Redirige a la página de inicio después del login
-        window.location.href = "home.html";
-    } else {
-        document.getElementById('errorMessage').textContent = "Invalid email or password!";
+    // Manejar el inicio de sesión
+    if (loginForm) {
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Verificación simple de inicio de sesión (para demostración)
+            if (username === 'user' && password === 'pass') {
+                localStorage.setItem('loggedIn', 'true');
+                window.location.href = 'home.html';
+            } else {
+                alert('Invalid username or password');
+            }
+        });
+    }
+
+    // Manejar el cierre de sesión
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'index.html';
+        });
+
+        // Verificar si el usuario está autenticado
+        if (!localStorage.getItem('loggedIn')) {
+            window.location.href = 'index.html';
+        }
     }
 });
